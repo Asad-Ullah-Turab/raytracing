@@ -1,0 +1,3 @@
+/home/mrlmao/workstuff/projects/raytracing/build/CMakeFiles/raytracing.dir
+/home/mrlmao/workstuff/projects/raytracing/build/CMakeFiles/edit_cache.dir
+/home/mrlmao/workstuff/projects/raytracing/build/CMakeFiles/rebuild_cache.dir
