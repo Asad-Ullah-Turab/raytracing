@@ -2,15 +2,19 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_video.h>
+#include <SDL_rect.h>
+#include <SDL_render.h>
+#include <SDL_timer.h>
 #include <iostream>
 #include <ostream>
 
 using namespace std;
 
-const int SCREEN_WIDTH = 800;
+const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
 
 int main() {
+
   // Initialze SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initalize! SDL_Error: " << SDL_GetError()
@@ -44,6 +48,8 @@ int main() {
   bool running = true;
   SDL_Event event;
 
+  SDL_Rect Rectangle{20, 20, 200, 200};
+
   while (running) {
     while (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
@@ -51,17 +57,16 @@ int main() {
       }
     }
 
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    SDL_RenderFillRect(renderer, &Rectangle);
+
+    SDL_Delay(500);
+
     // Set background color (black)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
   }
-
-  Circle circle(20.1);
-  cout << circle.getRadius() << endl;
-
-  Circle newCircle(919.121);
-  cout << newCircle.getCircumference() << endl;
 
   // Cleanup
   SDL_DestroyRenderer(renderer);
