@@ -77,7 +77,7 @@ int main() {
 
 void HandleDraw(SDL_Renderer *renderer) {
 
-  Circle circle(300, 200, 200);
+  Circle circle(20, 200, 200);
   SDL_Color color{200, 20, 20, 255};
   circle.DrawCircle(renderer, color);
 }

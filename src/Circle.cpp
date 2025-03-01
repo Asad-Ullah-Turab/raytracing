@@ -16,7 +16,13 @@ double Circle::getArea() { return M_PI * radius * radius; }
 double Circle::getCircumference() { return 2 * M_PI * radius; }
 
 void Circle::DrawCircle(SDL_Renderer *renderer, SDL_Color color) {
-  SDL_Rect rect{20, 20, (int)radius, (int)radius};
   SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-  SDL_RenderFillRect(renderer, &rect);
+  for (int i = x - radius; i < x + radius; i++) {
+    for (int j = y - radius; j < y + radius; j++) {
+      double distance_sqrd = std::pow(x - i, 2) + pow(y - j, 2);
+      if (distance_sqrd <= pow(radius, 2)) {
+        SDL_RenderDrawPoint(renderer, i, j);
+      }
+    }
+  }
 }
