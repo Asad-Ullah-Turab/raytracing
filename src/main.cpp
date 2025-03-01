@@ -1,7 +1,8 @@
-#include "circle.h"
+#include "Circle.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_video.h>
+#include <SDL_pixels.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
 #include <SDL_timer.h>
@@ -12,6 +13,8 @@ using namespace std;
 
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
+
+void HandleDraw(SDL_Renderer *);
 
 int main() {
 
@@ -48,8 +51,6 @@ int main() {
   bool running = true;
   SDL_Event event;
 
-  SDL_Rect Rectangle{20, 20, 200, 200};
-
   while (running) {
     while (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
@@ -57,12 +58,10 @@ int main() {
       }
     }
 
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    SDL_RenderFillRect(renderer, &Rectangle);
+    // Draw
+    HandleDraw(renderer);
 
-    SDL_Delay(500);
-
-    // Set background color (black)
+    // Update
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
@@ -74,4 +73,11 @@ int main() {
   SDL_Quit();
 
   return 0;
+}
+
+void HandleDraw(SDL_Renderer *renderer) {
+
+  Circle circle(300, 200, 200);
+  SDL_Color color{200, 20, 20, 255};
+  circle.DrawCircle(renderer, color);
 }
