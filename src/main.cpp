@@ -1,8 +1,11 @@
+#include "circle.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_video.h>
 #include <iostream>
 #include <ostream>
+
+using namespace std;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -53,6 +56,12 @@ int main() {
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
   }
+
+  Circle circle(20.1);
+  cout << circle.getRadius() << endl;
+
+  Circle newCircle(919.121);
+  cout << newCircle.getCircumference() << endl;
 
   // Cleanup
   SDL_DestroyRenderer(renderer);
