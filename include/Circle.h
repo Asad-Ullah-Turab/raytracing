@@ -1,3 +1,6 @@
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
 #include <SDL_pixels.h>
 #include <SDL_render.h>
 class Circle {
@@ -10,12 +13,18 @@ public:
   Circle(double radius, double x, double y);
 
   double getRadius();
-
   void setRadius(double r);
 
-  double getArea();
+  double getX();
+  void setX(double x);
 
+  double getY();
+  void setY(double y);
+
+  double getArea();
   double getCircumference();
 
-  void DrawCircle(SDL_Renderer *renderer, SDL_Color color);
+  virtual void DrawCircle(SDL_Renderer *renderer, SDL_Color color);
 };
+
+#endif // !CIRCLE_H

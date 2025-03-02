@@ -7,9 +7,17 @@
 Circle::Circle(double radius, double x, double y)
     : radius(radius), x(x), y(y) {}
 
-double Circle::getRadius() { return radius; }
+double Circle::getRadius() { return this->radius; }
 
-void Circle::setRadius(double r) { radius = r; }
+void Circle::setRadius(double r) { this->radius = r; }
+
+double Circle::getX() { return this->x; }
+
+void Circle::setX(double x) { this->x = x; }
+
+double Circle::getY() { return this->y; }
+
+void Circle::setY(double y) { this->y = y; }
 
 double Circle::getArea() { return M_PI * radius * radius; }
 

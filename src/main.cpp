@@ -1,10 +1,13 @@
 #include "Circle.h"
+#include "DraggableCircle.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_video.h>
+#include <SDL_events.h>
 #include <SDL_pixels.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
+#include <SDL_surface.h>
 #include <SDL_timer.h>
 #include <iostream>
 #include <ostream>
@@ -14,6 +17,7 @@ using namespace std;
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
 
+void HandleEvents(SDL_Event *, bool *);
 void HandleDraw(SDL_Renderer *);
 
 int main() {
@@ -52,13 +56,8 @@ int main() {
   SDL_Event event;
 
   while (running) {
-    while (SDL_PollEvent(&event)) {
-      if (event.type == SDL_QUIT) {
-        running = false;
-      }
-    }
 
-    // Draw
+    HandleEvents(&event, &running);
     HandleDraw(renderer);
 
     // Update
@@ -75,9 +74,23 @@ int main() {
   return 0;
 }
 
-void HandleDraw(SDL_Renderer *renderer) {
+void HandleEvents(SDL_Event *event, bool *running) {
 
-  Circle circle(20, 200, 200);
+  while (SDL_PollEvent(event)) {
+    if (event->type == SDL_QUIT) {
+      *running = false;
+    } else if (event->type == SDL_MOUSEMOTION &&
+               event->motion.state == SDL_BUTTON_LMASK) {
+    }
+  }
+}
+
+void HandleDraw(SDL_Renderer *renderer) {
+  Circle circle(120, 800, 300);
   SDL_Color color{200, 20, 20, 255};
   circle.DrawCircle(renderer, color);
+
+  DraggableCircle circle2(50, 200, 200);
+  color = {0, 0, 255, 255};
+  circle2.DrawCircle(renderer, color);
 }
