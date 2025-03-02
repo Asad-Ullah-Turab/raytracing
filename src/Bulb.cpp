@@ -4,13 +4,11 @@
 #include <SDL_pixels.h>
 #include <SDL_render.h>
 #include <algorithm>
-#include <iostream>
-#include <ostream>
 
-Bulb::Bulb(double radius, double x, double y, SDL_Color color, int rayCount,
-           int rayThickness)
-    : DraggableCircle(radius, x, y, color), rayCount(rayCount),
-      rayThickness(rayThickness) {}
+Bulb::Bulb(double radius, double x, double y, SDL_Color cirlceColor,
+           int rayCount, int rayThickness, SDL_Color rayColor)
+    : DraggableCircle(radius, x, y, cirlceColor), rayCount(rayCount),
+      rayThickness(rayThickness), rayColor(rayColor) {}
 
 int Bulb::getRayCount() const { return this->rayCount; }
 
@@ -21,6 +19,9 @@ int Bulb::getRayThickness() const { return this->rayThickness; }
 void Bulb::setRayThickness(int rayThickness) {
   this->rayThickness = rayThickness;
 }
+
+SDL_Color Bulb::getRayColor() { return this->rayColor; }
+void Bulb::setRayColor(SDL_Color color) { this->rayColor = color; }
 
 void Bulb::HandleEvent(const SDL_Event &event) {
   DraggableCircle::HandleEvent(event);
@@ -89,6 +90,8 @@ void Bulb::CastRays(SDL_Renderer *renderer,
     // std::cout << "Ray ends at: " << endX << " , " << endY << std::endl;
 
     // Draw the ray
+    SDL_SetRenderDrawColor(renderer, rayColor.r, rayColor.g, rayColor.b,
+                           rayColor.a);
     SDL_RenderDrawLine(renderer, static_cast<int>(getX()),
                        static_cast<int>(getY()), static_cast<int>(endX),
                        static_cast<int>(endY));

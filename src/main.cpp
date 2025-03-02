@@ -11,7 +11,6 @@
 #include <SDL_surface.h>
 #include <SDL_timer.h>
 #include <iostream>
-#include <iterator>
 #include <ostream>
 #include <vector>
 
@@ -58,8 +57,9 @@ int main() {
   }
 
   // Creating objects
-  SDL_Color color{0, 0, 255, 255};
-  Bulb bulb(50, 200, 200, color, 1000, 1);
+  SDL_Color color{255, 255, 0, 255};
+  SDL_Color rayColor{255, 255, 75, 10};
+  Bulb bulb(50, 200, 200, color, 1000, 1, rayColor);
 
   color = {255, 0, 0, 255};
   DraggableCircle circle(120, 800, 150, color);
@@ -115,7 +115,7 @@ void HandleDraw(SDL_Renderer *renderer, const vector<Circle *> &circles,
     circle->DrawCircle(renderer);
   }
   for (const Bulb *bulb : bulbs) {
-    bulb->DrawCircle(renderer);
     bulb->CastRays(renderer, circles);
+    bulb->DrawCircle(renderer);
   }
 }
