@@ -3,11 +3,11 @@
 
 #include "Circle.h"
 #include <SDL_events.h>
+#include <SDL_pixels.h>
 
-class DraggableCircle : Circle {
+class DraggableCircle : public Circle {
 public:
-  DraggableCircle(double radius, double x, double y);
-  void DrawCircle(SDL_Renderer *renderer, SDL_Color color) override;
+  DraggableCircle(double radius, double x, double y, SDL_Color color);
   void HandleEvent(const SDL_Event &event);
 };
 

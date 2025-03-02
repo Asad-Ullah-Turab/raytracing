@@ -4,8 +4,8 @@
 #include <SDL_render.h>
 #include <cmath>
 
-Circle::Circle(double radius, double x, double y)
-    : radius(radius), x(x), y(y) {}
+Circle::Circle(double radius, double x, double y, SDL_Color color)
+    : radius(radius), x(x), y(y), color(color) {}
 
 double Circle::getRadius() { return this->radius; }
 
@@ -23,7 +23,7 @@ double Circle::getArea() { return M_PI * radius * radius; }
 
 double Circle::getCircumference() { return 2 * M_PI * radius; }
 
-void Circle::DrawCircle(SDL_Renderer *renderer, SDL_Color color) {
+void Circle::DrawCircle(SDL_Renderer *renderer) const {
   SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
   for (int i = x - radius; i < x + radius; i++) {
     for (int j = y - radius; j < y + radius; j++) {

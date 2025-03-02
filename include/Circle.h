@@ -8,9 +8,10 @@ private:
   double radius;
   double x;
   double y;
+  SDL_Color color;
 
 public:
-  Circle(double radius, double x, double y);
+  Circle(double radius, double x, double y, SDL_Color color);
 
   double getRadius();
   void setRadius(double r);
@@ -24,7 +25,7 @@ public:
   double getArea();
   double getCircumference();
 
-  virtual void DrawCircle(SDL_Renderer *renderer, SDL_Color color);
+  void DrawCircle(SDL_Renderer *renderer) const;
 };
 
 #endif // !CIRCLE_H

@@ -11,14 +11,15 @@
 #include <SDL_timer.h>
 #include <iostream>
 #include <ostream>
+#include <vector>
 
 using namespace std;
 
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
 
-void HandleEvents(SDL_Event *, bool *);
-void HandleDraw(SDL_Renderer *);
+void HandleEvents(SDL_Event &, bool &, DraggableCircle &);
+void HandleDraw(SDL_Renderer *renderer, const vector<Circle> &circles);
 
 int main() {
 
@@ -52,13 +53,21 @@ int main() {
     return 1;
   }
 
+  // Creating objects
+  SDL_Color color{255, 0, 0, 255};
+  Circle circle(120, 800, 300, color);
+  color = {0, 0, 255, 255};
+  DraggableCircle draggableCircle(50, 200, 200, color);
+
+  vector<Circle> circles = {circle, draggableCircle};
+
+  // Main Loop
   bool running = true;
   SDL_Event event;
-
   while (running) {
 
-    HandleEvents(&event, &running);
-    HandleDraw(renderer);
+    HandleEvents(event, running, draggableCircle);
+    HandleDraw(renderer, circles);
 
     // Update
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -74,23 +83,21 @@ int main() {
   return 0;
 }
 
-void HandleEvents(SDL_Event *event, bool *running) {
+void HandleEvents(SDL_Event &event, bool &running,
+                  DraggableCircle &draggableCircle) {
 
-  while (SDL_PollEvent(event)) {
-    if (event->type == SDL_QUIT) {
-      *running = false;
-    } else if (event->type == SDL_MOUSEMOTION &&
-               event->motion.state == SDL_BUTTON_LMASK) {
+  while (SDL_PollEvent(&event)) {
+    if (event.type == SDL_QUIT) {
+      running = false;
+    } else if (event.type == SDL_MOUSEMOTION &&
+               event.motion.state == SDL_BUTTON_LMASK) {
+      draggableCircle.HandleEvent(event);
     }
   }
 }
 
-void HandleDraw(SDL_Renderer *renderer) {
-  Circle circle(120, 800, 300);
-  SDL_Color color{200, 20, 20, 255};
-  circle.DrawCircle(renderer, color);
-
-  DraggableCircle circle2(50, 200, 200);
-  color = {0, 0, 255, 255};
-  circle2.DrawCircle(renderer, color);
+void HandleDraw(SDL_Renderer *renderer, const vector<Circle> &circles) {
+  for (const Circle &circle : circles) {
+    circle.DrawCircle(renderer);
+  }
 }
