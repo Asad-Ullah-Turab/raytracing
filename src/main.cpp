@@ -19,7 +19,7 @@ const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
 
 void HandleEvents(SDL_Event &, bool &, DraggableCircle &);
-void HandleDraw(SDL_Renderer *renderer, const vector<Circle> &circles);
+void HandleDraw(SDL_Renderer *renderer, const vector<Circle *> &circles);
 
 int main() {
 
@@ -59,7 +59,7 @@ int main() {
   color = {0, 0, 255, 255};
   DraggableCircle draggableCircle(50, 200, 200, color);
 
-  vector<Circle> circles = {circle, draggableCircle};
+  vector<Circle *> circles = {&circle, &draggableCircle};
 
   // Main Loop
   bool running = true;
@@ -85,7 +85,6 @@ int main() {
 
 void HandleEvents(SDL_Event &event, bool &running,
                   DraggableCircle &draggableCircle) {
-
   while (SDL_PollEvent(&event)) {
     if (event.type == SDL_QUIT) {
       running = false;
@@ -96,8 +95,8 @@ void HandleEvents(SDL_Event &event, bool &running,
   }
 }
 
-void HandleDraw(SDL_Renderer *renderer, const vector<Circle> &circles) {
-  for (const Circle &circle : circles) {
-    circle.DrawCircle(renderer);
+void HandleDraw(SDL_Renderer *renderer, const vector<Circle *> &circles) {
+  for (const Circle *circle : circles) {
+    circle->DrawCircle(renderer);
   }
 }

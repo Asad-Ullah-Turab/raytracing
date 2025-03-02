@@ -7,8 +7,15 @@ DraggableCircle::DraggableCircle(double radius, double x, double y,
     : Circle(radius, x, y, color) {}
 
 void DraggableCircle::HandleEvent(const SDL_Event &event) {
-  if (event.type == SDL_MOUSEMOTION && event.motion.state == 1) {
-    this->setX(event.motion.x);
-    this->setY(event.motion.y);
+  // Checkt if event is mount drag
+  if ((event.type == SDL_MOUSEMOTION && event.motion.state == 1) && (true)) {
+
+    // Check if the mouse dragged inside the circle
+    double distance_sqrd =
+        std::pow(getX() - event.motion.x, 2) + pow(getY() - event.motion.y, 2);
+    if (distance_sqrd <= pow(getRadius(), 2)) {
+      this->setX(event.motion.x);
+      this->setY(event.motion.y);
+    }
   }
 }
