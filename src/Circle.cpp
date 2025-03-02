@@ -7,19 +7,23 @@
 Circle::Circle(double radius, double x, double y, SDL_Color color)
     : radius(radius), x(x), y(y), color(color) {}
 
-double Circle::getRadius() { return this->radius; }
+double Circle::getRadius() const { return this->radius; }
 
 void Circle::setRadius(double r) { this->radius = r; }
 
-double Circle::getX() { return this->x; }
+double Circle::getX() const { return this->x; }
 
 void Circle::setX(double x) { this->x = x; }
 
-double Circle::getY() { return this->y; }
+double Circle::getY() const { return this->y; }
 
 void Circle::setY(double y) { this->y = y; }
 
-double Circle::getArea() { return M_PI * radius * radius; }
+SDL_Color Circle::getColor() const { return this->color; }
+
+void Circle::setColor(SDL_Color color) { this->color = color; }
+
+double Circle::getArea() const { return M_PI * radius * radius; }
 
 double Circle::getCircumference() { return 2 * M_PI * radius; }
 

@@ -1,5 +1,6 @@
+#include "Bulb.h"
 #include "Circle.h"
-#include "DraggableCircle.h"
+#include "Global.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_video.h>
@@ -10,6 +11,7 @@
 #include <SDL_surface.h>
 #include <SDL_timer.h>
 #include <iostream>
+#include <iterator>
 #include <ostream>
 #include <vector>
 
@@ -18,8 +20,10 @@ using namespace std;
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
 
-void HandleEvents(SDL_Event &, bool &, const vector<Circle *> &);
-void HandleDraw(SDL_Renderer *, const vector<Circle *> &);
+void HandleEvents(SDL_Event &, bool &, const vector<Circle *> &,
+                  const vector<Bulb *> &);
+void HandleDraw(SDL_Renderer *, const vector<Circle *> &,
+                const vector<Bulb *> &);
 
 int main() {
 
@@ -54,20 +58,24 @@ int main() {
   }
 
   // Creating objects
-  SDL_Color color{255, 0, 0, 255};
-  Circle circle(120, 800, 300, color);
-  color = {0, 0, 255, 255};
-  DraggableCircle draggableCircle(50, 200, 200, color);
+  SDL_Color color{0, 0, 255, 255};
+  Bulb bulb(50, 200, 200, color, 1000, 1);
 
-  vector<Circle *> circles = {&circle, &draggableCircle};
+  color = {255, 0, 0, 255};
+  DraggableCircle circle(120, 800, 150, color);
+  color = {0, 255, 0, 255};
+  DraggableCircle circle2(80, 800, 450, color);
+
+  vector<Circle *> circles = {&circle, &circle2};
+  vector<Bulb *> bulbs = {&bulb};
 
   // Main Loop
   bool running = true;
   SDL_Event event;
   while (running) {
 
-    HandleEvents(event, running, circles);
-    HandleDraw(renderer, circles);
+    HandleEvents(event, running, circles, bulbs);
+    HandleDraw(renderer, circles, bulbs);
 
     // Update
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -84,7 +92,8 @@ int main() {
 }
 
 void HandleEvents(SDL_Event &event, bool &running,
-                  const vector<Circle *> &circles) {
+                  const vector<Circle *> &circles,
+                  const vector<Bulb *> &bulbs) {
   while (SDL_PollEvent(&event)) {
     if (event.type == SDL_QUIT) {
       running = false;
@@ -93,12 +102,20 @@ void HandleEvents(SDL_Event &event, bool &running,
       for (Circle *circle : circles) {
         circle->HandleEvent(event);
       }
+      for (Bulb *bulb : bulbs) {
+        bulb->HandleEvent(event);
+      }
     }
   }
 }
 
-void HandleDraw(SDL_Renderer *renderer, const vector<Circle *> &circles) {
+void HandleDraw(SDL_Renderer *renderer, const vector<Circle *> &circles,
+                const vector<Bulb *> &bulbs) {
   for (const Circle *circle : circles) {
     circle->DrawCircle(renderer);
+  }
+  for (const Bulb *bulb : bulbs) {
+    bulb->DrawCircle(renderer);
+    bulb->CastRays(renderer, circles);
   }
 }
