@@ -1,6 +1,7 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
+#include <SDL_events.h>
 #include <SDL_pixels.h>
 #include <SDL_render.h>
 class Circle {
@@ -26,6 +27,8 @@ public:
   double getCircumference();
 
   void DrawCircle(SDL_Renderer *renderer) const;
+
+  virtual void HandleEvent(const SDL_Event &event) {};
 };
 
 #endif // !CIRCLE_H

@@ -8,7 +8,7 @@
 class DraggableCircle : public Circle {
 public:
   DraggableCircle(double radius, double x, double y, SDL_Color color);
-  void HandleEvent(const SDL_Event &event);
+  void HandleEvent(const SDL_Event &event) override;
 };
 
 #endif // !DRAGGABLE_CIRCLE_H

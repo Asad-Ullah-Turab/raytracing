@@ -18,8 +18,8 @@ using namespace std;
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
 
-void HandleEvents(SDL_Event &, bool &, DraggableCircle &);
-void HandleDraw(SDL_Renderer *renderer, const vector<Circle *> &circles);
+void HandleEvents(SDL_Event &, bool &, const vector<Circle *> &);
+void HandleDraw(SDL_Renderer *, const vector<Circle *> &);
 
 int main() {
 
@@ -66,7 +66,7 @@ int main() {
   SDL_Event event;
   while (running) {
 
-    HandleEvents(event, running, draggableCircle);
+    HandleEvents(event, running, circles);
     HandleDraw(renderer, circles);
 
     // Update
@@ -84,13 +84,15 @@ int main() {
 }
 
 void HandleEvents(SDL_Event &event, bool &running,
-                  DraggableCircle &draggableCircle) {
+                  const vector<Circle *> &circles) {
   while (SDL_PollEvent(&event)) {
     if (event.type == SDL_QUIT) {
       running = false;
     } else if (event.type == SDL_MOUSEMOTION &&
                event.motion.state == SDL_BUTTON_LMASK) {
-      draggableCircle.HandleEvent(event);
+      for (Circle *circle : circles) {
+        circle->HandleEvent(event);
+      }
     }
   }
 }
